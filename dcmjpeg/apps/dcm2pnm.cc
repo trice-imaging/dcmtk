@@ -927,6 +927,7 @@ int main(int argc, char *argv[])
     Sint32 frameCount;
     if (dataset->findAndGetSint32(DCM_NumberOfFrames, frameCount).bad())
         frameCount = 1;
+    Sint32 realFrameCount = frameCount;
     if ((opt_frameCount == 0) || ((opt_frame == 1) && (opt_frameCount == OFstatic_cast(Uint32, frameCount))))
     {
         // since we process all frames anyway, decompress the complete pixel data (if required)
@@ -935,11 +936,12 @@ int main(int argc, char *argv[])
         opt_frameCount = OFstatic_cast(Uint32, frameCount);
     }
 
-    if (!(opt_compatibilityMode & CIF_DecompressCompletePixelData))
+    if (realFrameCount > 1 && !(opt_compatibilityMode & CIF_DecompressCompletePixelData))
     {
         // use partial read access to pixel data (only in case of multiple frames, but not for all frames)
         opt_compatibilityMode |= CIF_UsePartialAccessToPixelData;
     }
+
 unsigned int FrameCount = opt_frameCount;  opt_frameCount = 1;
 for ( ;  opt_frame <= FrameCount; opt_frame++)
 {
