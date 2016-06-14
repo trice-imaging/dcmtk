@@ -1546,7 +1546,6 @@ for ( ;  opt_frame <= FrameCount; opt_frame++)
     OFLOG_INFO(dcm2pnmLogger, "cleaning up memory");
     delete di;
     delete disp;
-    delete dfileSV;
 }
 
     // deregister RLE decompression codec
